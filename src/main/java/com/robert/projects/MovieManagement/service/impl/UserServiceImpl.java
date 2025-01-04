@@ -16,14 +16,17 @@ public class UserServiceImpl implements UserService {
   private UserCrudRepository userCrudRepository;
 
   @Override
-  public List<User> findAll() {
-    return userCrudRepository.findAll();
-  }
+  public List<User> findAll(String name) {
+    if(name == null || name.isEmpty())
+      return userCrudRepository.findAll();
 
-  @Override
-  public List<User> findAllByName(String name) {
     return userCrudRepository.findByNameContaining(name);
   }
+
+  // @Override
+  // public List<User> findAllByName(String name) {
+  //   return userCrudRepository.findByNameContaining(name);
+  // }
 
   @Override
   public User findOneByUsername(String username) {
