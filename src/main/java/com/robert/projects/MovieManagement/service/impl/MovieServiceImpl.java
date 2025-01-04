@@ -3,6 +3,7 @@ package com.robert.projects.MovieManagement.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.robert.projects.MovieManagement.exception.ObjectNotFoundException;
 import com.robert.projects.MovieManagement.persistence.entity.Movie;
@@ -10,6 +11,7 @@ import com.robert.projects.MovieManagement.persistence.repository.MovieCrudRepos
 import com.robert.projects.MovieManagement.service.MovieService;
 import com.robert.projects.MovieManagement.util.MovieGenre;
 
+@Service
 public class MovieServiceImpl implements MovieService {
   @Autowired
   private MovieCrudRepository movieCrudRepository;
