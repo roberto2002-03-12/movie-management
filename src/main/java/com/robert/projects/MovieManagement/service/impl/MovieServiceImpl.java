@@ -1,5 +1,6 @@
 package com.robert.projects.MovieManagement.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,29 +12,33 @@ import com.robert.projects.MovieManagement.persistence.repository.MovieCrudRepos
 import com.robert.projects.MovieManagement.service.MovieService;
 import com.robert.projects.MovieManagement.util.MovieGenre;
 
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
+
 @Service
 public class MovieServiceImpl implements MovieService {
   @Autowired
   private MovieCrudRepository movieCrudRepository;
 
   @Override
-  public List<Movie> findAll() {
-    return movieCrudRepository.findAll();
-  }
+  public List<Movie> findAll(String title, MovieGenre genre) {
+    // return movieCrudRepository.findAll();
+    return movieCrudRepository.findAll((root, query, cb) -> {
+      List<Predicate> predicates = new ArrayList<>();
 
-  @Override
-  public List<Movie> findAllByTitle(String title) {
-    return movieCrudRepository.findByTitleContaining(title);
-  }
+      // Esto evita el N+1 sin embargo, no es la solución final
+      root.fetch("ratings", JoinType.LEFT);
+      
+      if (title != null && !title.isEmpty())
+        predicates.add(cb.like(root.get("title"), "%" + title + "%"));
+      
+      if (genre != null)
+        predicates.add(cb.equal(root.get("genre"), genre));
 
-  @Override
-  public List<Movie> findAllByGenre(MovieGenre genre) {
-    return movieCrudRepository.findByGenre(genre);
-  }
+      query.distinct(true);
 
-  @Override
-  public List<Movie> findAllByGenreAndTitle(MovieGenre genre, String title) {
-    return movieCrudRepository.findByGenreAndTitleContaining(genre, title);
+      return cb.and(predicates.toArray(new Predicate[0]));
+    });
   }
 
   @Override
