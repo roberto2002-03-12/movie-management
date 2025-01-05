@@ -3,6 +3,7 @@ package com.robert.projects.MovieManagement.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ import jakarta.persistence.criteria.Predicate;
 public class MovieServiceImpl implements MovieService {
   @Autowired
   private MovieCrudRepository movieCrudRepository;
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Override
   public List<Movie> findAll(String title, MovieGenre genre) {
@@ -60,10 +63,11 @@ public class MovieServiceImpl implements MovieService {
   public Movie updateOneById(Long id, Movie newMovie) {
     Movie oldMovie = this.findOneById(id);
 
-    oldMovie.setGenre(newMovie.getGenre());
-    oldMovie.setTitle(newMovie.getTitle());
-    oldMovie.setRealeasedYear(newMovie.getRealeasedYear());
-    oldMovie.setDirector(newMovie.getDirector());
+    // oldMovie.setGenre(newMovie.getGenre());
+    // oldMovie.setTitle(newMovie.getTitle());
+    // oldMovie.setRealeasedYear(newMovie.getRealeasedYear());
+    // oldMovie.setDirector(newMovie.getDirector());
+    modelMapper.map(newMovie, oldMovie);
 
     return movieCrudRepository.save(oldMovie);
   }
