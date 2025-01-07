@@ -24,6 +24,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
+// import org.springframework.web.bind.annotation.RequestPart;
+// import org.springframework.web.multipart.MultipartFile;
+// import org.springframework.http.MediaType;
 
 @RestController
 @RequestMapping("/movies")
@@ -59,7 +62,7 @@ public class MovieController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Movie> putMethodName(
+  public ResponseEntity<Movie> updateOne(
     @PathVariable String id,
     @Valid @RequestBody UpdateMovieRequest entity
   ) {
@@ -71,7 +74,6 @@ public class MovieController {
   public ResponseEntity<String> deleteOneById(
     @PathVariable(required = true) String id
   ) {
-    System.out.println("hola");
     movieService.deleteOneById(Long.parseLong(id));
     return ResponseEntity.status(204).body("Pelicula eliminada");
   }
