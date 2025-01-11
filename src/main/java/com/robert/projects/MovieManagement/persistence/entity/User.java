@@ -2,6 +2,8 @@ package com.robert.projects.MovieManagement.persistence.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,6 +37,7 @@ public class User {
   private String name;
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+  @JsonManagedReference
   private List<Rating> ratings;
 
   public Long getId() {

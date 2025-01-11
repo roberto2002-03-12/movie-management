@@ -2,6 +2,9 @@ package com.robert.projects.MovieManagement.persistence.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+// import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.robert.projects.MovieManagement.util.MovieGenre;
 
 import jakarta.persistence.Column;
@@ -17,6 +20,7 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Movie {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private Long id;
 
   @Column(nullable = false)
@@ -26,12 +30,18 @@ public class Movie {
   private String director;
 
   @Enumerated(EnumType.STRING)
+  // @JsonProperty(value = "released-year")
+  // con esto haces que solo sea lectura no escritura, si lo colocas en el POST lo va ignorar
   private MovieGenre genre;
 
   @Column(name = "realeased_year")
+  // usalo para cambiar el nombre del atributo en caso de responder una respuesta api
+  // @JsonProperty(value = "released-year")
+  // @JsonFormat(pattern = "yyyy/MM/dd") // solo funciona para fechas
   private String realeasedYear;
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "movie")
+  @JsonManagedReference
   private List<Rating> ratings;
 
   public Long getId() {
