@@ -8,5 +8,5 @@ public record SaveMovie(
   String title,
   String director,
   MovieGenre genre,
-  int releasedYear
+  String releasedYear
 ) implements Serializable { }

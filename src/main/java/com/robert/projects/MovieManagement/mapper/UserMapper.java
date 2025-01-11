@@ -12,6 +12,7 @@ public class UserMapper {
     if(entity == null) return null;
 
     return new GetUser(
+      entity.getId(),
       entity.getUsername(),
       entity.getName(),
       null
