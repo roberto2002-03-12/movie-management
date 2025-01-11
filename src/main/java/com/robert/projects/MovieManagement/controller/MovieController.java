@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.robert.projects.MovieManagement.dto.request.movie.CreateMovieRequest;
 import com.robert.projects.MovieManagement.dto.request.movie.UpdateMovieRequest;
+import com.robert.projects.MovieManagement.dto.response.movie.GetMovie;
 import com.robert.projects.MovieManagement.persistence.entity.Movie;
 import com.robert.projects.MovieManagement.service.MovieService;
 import com.robert.projects.MovieManagement.util.MovieGenre;
@@ -39,7 +40,7 @@ public class MovieController {
   // Note: por cada petición se esta haciendo un select one, haciendo que el tiempo de respuesta sea mayor
   // ToDo: ver una manera de evitar esto
   @GetMapping
-  public ResponseEntity<List<Movie>> findAll(
+  public ResponseEntity<List<GetMovie>> findAll(
     @RequestParam(required = false) String title,
     @RequestParam(required = false) MovieGenre genre
   ) {
@@ -47,14 +48,14 @@ public class MovieController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Movie> findOneById(
+  public ResponseEntity<GetMovie> findOneById(
     @PathVariable(required = true) Long id
   ) {
     return ResponseEntity.ok(movieService.findOneById(id));
   }
 
   @PostMapping
-  public ResponseEntity<Movie> createOne(
+  public ResponseEntity<GetMovie> createOne(
     @Valid @RequestBody CreateMovieRequest entity
   ) {
     Movie movie = modelMapper.map(entity, Movie.class);
@@ -62,7 +63,7 @@ public class MovieController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Movie> updateOne(
+  public ResponseEntity<GetMovie> updateOne(
     @PathVariable String id,
     @Valid @RequestBody UpdateMovieRequest entity
   ) {

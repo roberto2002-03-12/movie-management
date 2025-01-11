@@ -7,7 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.robert.projects.MovieManagement.dto.response.movie.GetMovie;
 import com.robert.projects.MovieManagement.exception.ObjectNotFoundException;
+import com.robert.projects.MovieManagement.mapper.MovieMapper;
 import com.robert.projects.MovieManagement.persistence.entity.Movie;
 import com.robert.projects.MovieManagement.persistence.repository.MovieCrudRepository;
 import com.robert.projects.MovieManagement.service.MovieService;
@@ -24,9 +26,9 @@ public class MovieServiceImpl implements MovieService {
   private ModelMapper modelMapper;
 
   @Override
-  public List<Movie> findAll(String title, MovieGenre genre) {
+  public List<GetMovie> findAll(String title, MovieGenre genre) {
     // return movieCrudRepository.findAll();
-    return movieCrudRepository.findAll((root, query, cb) -> {
+    return MovieMapper.toGetDtoList(movieCrudRepository.findAll((root, query, cb) -> {
       List<Predicate> predicates = new ArrayList<>();
 
       // Esto evita el N+1 sin embargo, no es la solución final
@@ -41,16 +43,33 @@ public class MovieServiceImpl implements MovieService {
       query.distinct(true);
 
       return cb.and(predicates.toArray(new Predicate[0]));
-    });
+    }));
   }
 
   @Override
-  public Movie createOne(Movie movie) {
-    return movieCrudRepository.save(movie);
+  public GetMovie createOne(Movie movie) {
+    return MovieMapper.toGetDto(movieCrudRepository.save(movie));
   }
 
   @Override
-  public Movie findOneById(Long id) {
+  public GetMovie findOneById(Long id) {
+    return MovieMapper.toGetDto(this.findOneByIdInternal(id)); 
+  }
+
+  @Override
+  public GetMovie updateOneById(Long id, Movie newMovie) {
+    Movie oldMovie = this.findOneByIdInternal(id);
+
+    // oldMovie.setGenre(newMovie.getGenre());
+    // oldMovie.setTitle(newMovie.getTitle());
+    // oldMovie.setRealeasedYear(newMovie.getRealeasedYear());
+    // oldMovie.setDirector(newMovie.getDirector());
+    modelMapper.map(newMovie, oldMovie);
+
+    return MovieMapper.toGetDto(movieCrudRepository.save(oldMovie));
+  }
+
+  private Movie findOneByIdInternal(Long id) {
     return movieCrudRepository
       .findById(id)
       .orElseThrow(
@@ -60,21 +79,8 @@ public class MovieServiceImpl implements MovieService {
   }
 
   @Override
-  public Movie updateOneById(Long id, Movie newMovie) {
-    Movie oldMovie = this.findOneById(id);
-
-    // oldMovie.setGenre(newMovie.getGenre());
-    // oldMovie.setTitle(newMovie.getTitle());
-    // oldMovie.setRealeasedYear(newMovie.getRealeasedYear());
-    // oldMovie.setDirector(newMovie.getDirector());
-    modelMapper.map(newMovie, oldMovie);
-
-    return movieCrudRepository.save(oldMovie);
-  }
-
-  @Override
   public void deleteOneById(Long id) {
-    Movie movie = this.findOneById(id);
+    Movie movie = this.findOneByIdInternal(id);
     movieCrudRepository.delete(movie);
   }
 
