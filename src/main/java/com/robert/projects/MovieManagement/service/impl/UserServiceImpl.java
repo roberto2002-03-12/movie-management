@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.robert.projects.MovieManagement.dto.response.user.GetUser;
 import com.robert.projects.MovieManagement.exception.ObjectNotFoundException;
+import com.robert.projects.MovieManagement.mapper.UserMapper;
 import com.robert.projects.MovieManagement.persistence.entity.User;
 import com.robert.projects.MovieManagement.persistence.repository.UserCrudRepository;
 import com.robert.projects.MovieManagement.service.UserService;
@@ -16,11 +18,11 @@ public class UserServiceImpl implements UserService {
   private UserCrudRepository userCrudRepository;
 
   @Override
-  public List<User> findAll(String name) {
+  public List<GetUser> findAll(String name) {
     if(name == null || name.isEmpty())
-      return userCrudRepository.findAll();
+      return UserMapper.toGetDtoList(userCrudRepository.findAll());
 
-    return userCrudRepository.findByNameContaining(name);
+    return UserMapper.toGetDtoList(userCrudRepository.findByNameContaining(name));
   }
 
   // @Override
@@ -29,28 +31,25 @@ public class UserServiceImpl implements UserService {
   // }
 
   @Override
-  public User findOneByUsername(String username) {
-    return userCrudRepository.findByUsername(username)
-      .orElseThrow(() ->
-        new ObjectNotFoundException("[user: " + username + " ]")
-      );
+  public GetUser findOneByUsername(String username) {
+    return UserMapper.toGetDto(this.findOneByUsernameInternal(username));
   }
 
   @Override
-  public User createOne(User user) {
-    return userCrudRepository.save(user);
+  public GetUser createOne(User user) {
+    return UserMapper.toGetDto(userCrudRepository.save(user));
   }
 
   @Override
-  public User updateOneByUsername(String username, User user) {
-    User oldUser = this.findOneByUsername(username);
+  public GetUser updateOneByUsername(String username, User user) {
+    User oldUser = this.findOneByUsernameInternal(username);
 
     oldUser.setName(user.getName());
     oldUser.setPassword(user.getPassword());
 
     // ToDo: valdiate password
 
-    return userCrudRepository.save(oldUser);
+    return UserMapper.toGetDto(userCrudRepository.save(oldUser));
   }
 
   @Override
@@ -59,6 +58,13 @@ public class UserServiceImpl implements UserService {
 
     if(isDeleted != 1)
       throw new ObjectNotFoundException("[user: " + username + " ]");
+  }
+
+  private User findOneByUsernameInternal(String username) {
+    return userCrudRepository.findByUsername(username)
+      .orElseThrow(() ->
+        new ObjectNotFoundException("[user: " + username + " ]")
+      );
   }
 
 }

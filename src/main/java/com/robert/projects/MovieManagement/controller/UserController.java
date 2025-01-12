@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.robert.projects.MovieManagement.persistence.entity.User;
+import com.robert.projects.MovieManagement.dto.response.user.GetUser;
 import com.robert.projects.MovieManagement.service.UserService;
 
 @RestController
@@ -20,14 +20,14 @@ public class UserController {
   private UserService userService;
 
   @GetMapping
-  public ResponseEntity<List<User>> findAll(
+  public ResponseEntity<List<GetUser>> findAll(
     @RequestParam(required = false) String name
   ) {
     return ResponseEntity.ok(userService.findAll(name));
   }
 
   @GetMapping("/{username}")
-  public ResponseEntity<User> findOneByUsername(
+  public ResponseEntity<GetUser> findOneByUsername(
     @PathVariable(required = true) String username
   ) {
     return ResponseEntity.ok(userService.findOneByUsername(username));
