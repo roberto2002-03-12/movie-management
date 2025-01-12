@@ -15,7 +15,7 @@ public class UserMapper {
       entity.getId(),
       entity.getUsername(),
       entity.getName(),
-      null
+      RatingMapper.toGetUserRatingDtoList(entity.getRatings())
     );
   }
 

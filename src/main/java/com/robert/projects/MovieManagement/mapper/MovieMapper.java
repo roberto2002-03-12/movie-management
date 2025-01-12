@@ -17,7 +17,7 @@ public class MovieMapper {
       entity.getDirector(),
       entity.getGenre(),
       entity.getRealeasedYear(),
-      null
+      RatingMapper.toGetMovieRatingDtoList(entity.getRatings()) 
     );
   }
 
