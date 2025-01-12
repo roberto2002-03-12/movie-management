@@ -2,7 +2,7 @@ package com.robert.projects.MovieManagement.persistence.entity;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+// import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,7 +37,7 @@ public class User {
   private String name;
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-  @JsonManagedReference
+  // @JsonManagedReference
   private List<Rating> ratings;
 
   public Long getId() {

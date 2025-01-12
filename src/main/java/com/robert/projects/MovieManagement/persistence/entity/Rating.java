@@ -3,7 +3,7 @@ package com.robert.projects.MovieManagement.persistence.entity;
 import org.hibernate.annotations.Check;
 import org.springframework.context.annotation.DependsOn;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+// import com.fasterxml.jackson.annotation.JsonBackReference;
 // import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -30,13 +30,13 @@ public class Rating {
   @ManyToOne // insertable = false, updatable = false sirve para aclarar que es un campo para obtener más no guardar
   @JoinColumn(name = "movie_id", insertable = false, updatable = false)
   // @JsonIgnore
-  @JsonBackReference
+  // @JsonBackReference
   private Movie movie;
 
   @ManyToOne
   @JoinColumn(name = "user_id", insertable = false, updatable = false)
   // @JsonIgnore // se utiliza para ignorar la serialización del objeto user, es decir que no te lo incluya al momento de hacer un GET
-  @JsonBackReference
+  // @JsonBackReference
   private User user;
 
   @Check(constraints = "rating >= 1 AND rating <= 5")

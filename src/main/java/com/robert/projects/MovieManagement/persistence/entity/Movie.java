@@ -2,9 +2,9 @@ package com.robert.projects.MovieManagement.persistence.entity;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+// import com.fasterxml.jackson.annotation.JsonManagedReference;
 // import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+// import com.fasterxml.jackson.annotation.JsonProperty;
 import com.robert.projects.MovieManagement.util.MovieGenre;
 
 import jakarta.persistence.Column;
@@ -26,7 +26,7 @@ import jakarta.persistence.OneToMany;
 )
 public class Movie {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  // @JsonProperty(access = JsonProperty.Access.READ_ONLY) // ya no se necesita porque estamos usando mapper
   private Long id;
 
   @Column(nullable = false)
@@ -47,7 +47,7 @@ public class Movie {
   private String realeasedYear;
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "movie")
-  @JsonManagedReference
+  // @JsonManagedReference // ya no se necesita porque estamos usando mapper
   private List<Rating> ratings;
 
   public Long getId() {
