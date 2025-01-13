@@ -44,8 +44,11 @@ public class UserServiceImpl implements UserService {
   public GetUser updateOneByUsername(String username, User user) {
     User oldUser = this.findOneByUsernameInternal(username);
 
-    oldUser.setName(user.getName());
-    oldUser.setPassword(user.getPassword());
+    if(user.getName() != null && !user.getName().isEmpty())
+      oldUser.setName(user.getName());
+
+    if(user.getPassword() != null && !user.getPassword().isEmpty())
+      oldUser.setPassword(user.getPassword());
 
     // ToDo: valdiate password
 
