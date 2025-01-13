@@ -11,6 +11,7 @@ import com.robert.projects.MovieManagement.mapper.UserMapper;
 import com.robert.projects.MovieManagement.persistence.entity.User;
 import com.robert.projects.MovieManagement.persistence.repository.UserCrudRepository;
 import com.robert.projects.MovieManagement.service.UserService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -56,8 +57,9 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  @Transactional
   public void deleteOneByUsername(String username) {
-    int isDeleted = userCrudRepository.deleteByUsername(username);
+    int isDeleted = userCrudRepository.deleteOneByUsername(username);
 
     if(isDeleted != 1)
       throw new ObjectNotFoundException("[user: " + username + " ]");
