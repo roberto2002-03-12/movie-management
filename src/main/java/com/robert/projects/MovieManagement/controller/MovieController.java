@@ -42,9 +42,11 @@ public class MovieController {
   @GetMapping
   public ResponseEntity<List<GetMovie>> findAll(
     @RequestParam(required = false) String title,
-    @RequestParam(required = false) MovieGenre genre
+    @RequestParam(required = false) MovieGenre genre,
+    @RequestParam(required = false) Integer minReleaseYear,
+    @RequestParam(required = false) Integer maxReleaseYear
   ) {
-    return ResponseEntity.ok(movieService.findAll(title, genre));
+    return ResponseEntity.ok(movieService.findAll(title, genre, minReleaseYear, maxReleaseYear));
   }
 
   @GetMapping("/{id}")

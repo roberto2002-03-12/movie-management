@@ -7,7 +7,7 @@ import com.robert.projects.MovieManagement.persistence.entity.Movie;
 import com.robert.projects.MovieManagement.util.MovieGenre;
 
 public interface MovieService {
-  List<GetMovie> findAll(String title, MovieGenre genre);
+  List<GetMovie> findAll(String title, MovieGenre genre, Integer minReleaseYear, Integer maxReleaseYear);
   GetMovie findOneById(Long id);
   GetMovie createOne(Movie movie);
   GetMovie updateOneById(Long id, Movie movie);

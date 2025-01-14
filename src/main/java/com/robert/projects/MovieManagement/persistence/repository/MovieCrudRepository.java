@@ -13,7 +13,7 @@ public interface MovieCrudRepository extends JpaRepository<Movie, Long>, JpaSpec
   // Containing es como el like de SQL
   @EntityGraph(value = "Movie.ratings")
   List<Movie> findAll();
-  List<Movie> findByTitleContaining(String title);
-  List<Movie> findByGenre(MovieGenre genre);
-  List<Movie> findByGenreAndTitleContaining(MovieGenre genre, String title);
+  //  List<Movie> findByTitleContaining(String title);
+  //  List<Movie> findByGenre(MovieGenre genre);
+  //  List<Movie> findByGenreAndTitleContaining(MovieGenre genre, String title);
 }
