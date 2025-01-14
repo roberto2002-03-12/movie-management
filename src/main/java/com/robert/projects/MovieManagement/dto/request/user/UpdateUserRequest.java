@@ -6,6 +6,9 @@ public class UpdateUserRequest {
     @Size(min = 3, max = 32, message = "La contraseña debe ser entre 3 y 32 caraceteres")
     private String password;
 
+    @Size(min = 3, max = 32, message = "La contraseña debe ser entre 3 y 32 caraceteres")
+    private String repeatPassword;
+
     @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
     private String name;
 
@@ -23,5 +26,13 @@ public class UpdateUserRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
     }
 }

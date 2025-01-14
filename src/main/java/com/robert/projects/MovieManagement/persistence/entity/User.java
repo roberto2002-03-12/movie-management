@@ -4,16 +4,7 @@ import java.util.List;
 
 // import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedAttributeNode;
-import jakarta.persistence.NamedEntityGraph;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user")
@@ -35,6 +26,9 @@ public class User {
 
   @Column(nullable = false)
   private String name;
+
+  @Transient
+  private String repeatPassword;
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
   // @JsonManagedReference
@@ -78,5 +72,13 @@ public class User {
 
   public void setRatings(List<Rating> ratings) {
     this.ratings = ratings;
+  }
+
+  public String getRepeatPassword() {
+    return repeatPassword;
+  }
+
+  public void setRepeatPassword(String repeatPassword) {
+    this.repeatPassword = repeatPassword;
   }
 }

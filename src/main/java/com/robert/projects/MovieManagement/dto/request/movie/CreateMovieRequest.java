@@ -21,6 +21,7 @@ public class CreateMovieRequest {
 
   @NotBlank(message = "Es necesario el año de lanzamiento")
   @Pattern(regexp = "^\\d{4}$", message = "Fecha de lanzamiento debe tener el formato YYYY")
+  // utiliza @Future para permitir solo fechas a futuro y @Past para solo fechas antiguas a la actual
   private String realeasedYear;
 
   public String getTitle() {

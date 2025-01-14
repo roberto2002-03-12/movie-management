@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.robert.projects.MovieManagement.dto.request.user.CreateUserRequest;
 import com.robert.projects.MovieManagement.dto.request.user.UpdateUserRequest;
+import com.robert.projects.MovieManagement.dto.response.ErrorResponse;
+import com.robert.projects.MovieManagement.exception.InvalidPasswordException;
 import com.robert.projects.MovieManagement.persistence.entity.User;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -37,21 +39,36 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<GetUser> createOne(
+  public ResponseEntity<Object> createOne(
           @Valid @RequestBody CreateUserRequest entity
   ) {
-    User user = modelMapper.map(entity, User.class);
-    return ResponseEntity.status(201).body(userService.createOne(user));
+    try {
+      User user = modelMapper.map(entity, User.class);
+      return ResponseEntity.status(201).body(userService.createOne(user));
+    } catch (Exception e) {
+      if(e.getClass() == InvalidPasswordException.class)
+        return ResponseEntity.status(400).body(
+                new ErrorResponse(e.getMessage(), null)
+        );
+      throw e;
+    }
   }
 
   @PutMapping("/{username}")
-  public ResponseEntity<GetUser> updateOne(
+  public ResponseEntity<Object> updateOne(
           @PathVariable(required = true) String username,
           @Valid @RequestBody UpdateUserRequest entity
   ) {
-    System.out.println("HOLA!!!!!!!!!!");
-    User user = modelMapper.map(entity, User.class);
-    return ResponseEntity.status(201).body(userService.updateOneByUsername(username, user));
+    try {
+      User user = modelMapper.map(entity, User.class);
+      return ResponseEntity.status(201).body(userService.updateOneByUsername(username, user));
+    } catch (Exception e) {
+      if(e.getClass() == InvalidPasswordException.class)
+        return ResponseEntity.status(400).body(
+                new ErrorResponse(e.getMessage(), null)
+        );
+      throw e;
+    }
   }
 
   @DeleteMapping("/{username}")

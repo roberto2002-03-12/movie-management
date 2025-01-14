@@ -2,6 +2,7 @@ package com.robert.projects.MovieManagement.service.impl;
 
 import java.util.List;
 
+import com.robert.projects.MovieManagement.service.validator.PasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public GetUser createOne(User user) {
+    PasswordValidator.validatePassword(user.getPassword(), user.getRepeatPassword());
     return UserMapper.toGetDto(userCrudRepository.save(user));
   }
 
@@ -48,8 +50,10 @@ public class UserServiceImpl implements UserService {
     if(user.getName() != null && !user.getName().isEmpty())
       oldUser.setName(user.getName());
 
-    if(user.getPassword() != null && !user.getPassword().isEmpty())
+    if(user.getPassword() != null && !user.getPassword().isEmpty()) {
+      PasswordValidator.validatePassword(user.getPassword(), user.getRepeatPassword());
       oldUser.setPassword(user.getPassword());
+    }
 
     // ToDo: valdiate password
 

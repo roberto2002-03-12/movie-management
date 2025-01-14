@@ -8,15 +8,15 @@ public class PasswordValidator {
     public static void validatePassword(String password, String passwordConfirmation) {
 
         if(!StringUtils.hasText(password) || !StringUtils.hasText(passwordConfirmation))
-            throw new IllegalArgumentException("Password and password confirmation are required");
+            throw new InvalidPasswordException(null, "Password and password confirmation are required");
 
         if(!password.equals(passwordConfirmation))
-            throw new IllegalArgumentException("Password and password confirmation must be equal");
+            throw new InvalidPasswordException(null, "Password and password confirmation must be equal");
 
         if(!containsNumber(password))
             throw new InvalidPasswordException(password, "Password must contain at least one number");
 
-        if(containsUpperCase(password))
+        if(!containsUpperCase(password))
             throw new InvalidPasswordException(password, "Password must contain at least one upper case letter");
 
         if(!containsLowerCase(password))
