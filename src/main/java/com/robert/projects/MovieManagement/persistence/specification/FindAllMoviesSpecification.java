@@ -53,13 +53,7 @@ public class FindAllMoviesSpecification implements Specification<Movie> {
         }
 
         if(this.minAverageRating != null && this.minAverageRating >= 1 && this.minAverageRating <= 4) {
-            Subquery<Double> averageRatingSubquery = query.subquery(Double.class); // creación de subquery definiendo que el valor de retorno va ser un double
-            Root<Rating> ratingRoot = averageRatingSubquery.from(Rating.class); // creación de root rating, es decir from rating
-
-            averageRatingSubquery.select(criteriaBuilder.avg(ratingRoot.get("rating"))); // select avg(rating)
-
-            Predicate movieIdEqual = criteriaBuilder.equal(root.get("id"), ratingRoot.get("movieId")); // where movie.id = rating.movieId
-            averageRatingSubquery.where(movieIdEqual); // agregar filtro al subquery
+            Subquery<Double> averageRatingSubquery = getAverageRatingSubquery(root, query, criteriaBuilder);
 
             // una vez declarado los filtros del select interno, se agrega el resultado del filtro que son números a la condicional greater than equal
             Predicate averageRatingGreaterThanEqual = criteriaBuilder.greaterThanOrEqualTo(averageRatingSubquery, this.minAverageRating);
@@ -67,13 +61,7 @@ public class FindAllMoviesSpecification implements Specification<Movie> {
         }
 
         if(this.maxAverageRating != null && this.maxAverageRating <= 5 && this.maxAverageRating >= 1) {
-            Subquery<Double> averageRatingSubquery = query.subquery(Double.class);
-            Root<Rating> ratingRoot = averageRatingSubquery.from(Rating.class);
-
-            averageRatingSubquery.select(criteriaBuilder.avg(ratingRoot.get("rating")));
-
-            Predicate movieIdEqual = criteriaBuilder.equal(root.get("id"), ratingRoot.get("movieId"));
-            averageRatingSubquery.where(movieIdEqual);
+            Subquery<Double> averageRatingSubquery = getAverageRatingSubquery(root, query, criteriaBuilder);
 
             Predicate averageRatingLessThanEqual = criteriaBuilder.lessThanOrEqualTo(averageRatingSubquery, this.maxAverageRating);
             predicates.add(averageRatingLessThanEqual);
@@ -84,5 +72,16 @@ public class FindAllMoviesSpecification implements Specification<Movie> {
         // con esto puedes indicar si le dejas a Java que defina el tamaño de un array "new Predicate[0]"
         // es bueno porque puede suceder que no te pasen ningún parametro
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+    }
+
+    private static Subquery<Double> getAverageRatingSubquery(Root<Movie> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+        Subquery<Double> averageRatingSubquery = query.subquery(Double.class); // creación de subquery definiendo que el valor de retorno va ser un double
+        Root<Rating> ratingRoot = averageRatingSubquery.from(Rating.class); // creación de root rating, es decir from rating
+
+        averageRatingSubquery.select(criteriaBuilder.avg(ratingRoot.get("rating"))); // select avg(rating)
+
+        Predicate movieIdEqual = criteriaBuilder.equal(root.get("id"), ratingRoot.get("movieId")); // where movie.id = rating.movieId
+        averageRatingSubquery.where(movieIdEqual); // agregar filtro al subquery
+        return averageRatingSubquery;
     }
 }
