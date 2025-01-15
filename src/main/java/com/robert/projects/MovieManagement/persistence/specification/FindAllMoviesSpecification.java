@@ -2,11 +2,9 @@ package com.robert.projects.MovieManagement.persistence.specification;
 
 import com.robert.projects.MovieManagement.dto.request.movie.GetMoviesRequest;
 import com.robert.projects.MovieManagement.persistence.entity.Movie;
+import com.robert.projects.MovieManagement.persistence.entity.Rating;
 import com.robert.projects.MovieManagement.util.MovieGenre;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
@@ -50,6 +48,21 @@ public class FindAllMoviesSpecification implements Specification<Movie> {
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("realeasedYear"), maxReleaseYear.toString()));
         }
 
+        // criteriaBuilder.avg(root.get("ratings").get("rating")).alias("averageRating");
+
+        Subquery<Double> averageRatingSubquery = query.subquery(Double.class); // definir el subquery para el avg
+        Root<Rating> ratingRoot = averageRatingSubquery.from(Rating.class); // definir el from que en este caso es la tabla rating
+        averageRatingSubquery.select(criteriaBuilder.avg(ratingRoot.get("rating"))); // realizar select con avarage rating
+        averageRatingSubquery.where(criteriaBuilder.equal(ratingRoot.get("movieId"), root));
+
+        query.multiselect(
+                root.get("id"),
+                root.get("title"),
+                root.get("director"),
+                root.get("genre"),
+                root.get("realeasedYear"),
+                averageRatingSubquery.alias("averageRating")
+        );
         query.distinct(true);
 
         // con esto puedes indicar si le dejas a Java que defina el tamaño de un array "new Predicate[0]"

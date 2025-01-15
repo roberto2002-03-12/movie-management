@@ -7,17 +7,7 @@ import java.util.List;
 // import com.fasterxml.jackson.annotation.JsonProperty;
 import com.robert.projects.MovieManagement.util.MovieGenre;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedAttributeNode;
-import jakarta.persistence.NamedEntityGraph;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 @Entity
 @NamedEntityGraph(
@@ -50,13 +40,14 @@ public class Movie {
   // @JsonManagedReference // ya no se necesita porque estamos usando mapper
   private List<Rating> ratings;
 
+  @Transient
+  private Double averageRating;
+
   public Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+  public void setId(Long id) { this.id = id; }
 
   public String getTitle() {
     return title;
@@ -94,7 +85,9 @@ public class Movie {
     return ratings;
   }
 
-  public void setRatings(List<Rating> ratings) {
-    this.ratings = ratings;
-  }
+  public void setRatings(List<Rating> ratings) { this.ratings = ratings; }
+
+  public Double getAverageRating() { return averageRating; }
+
+  public void setAverageRating(Double averageRating) { this.averageRating = averageRating; }
 }
