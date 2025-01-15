@@ -1,5 +1,6 @@
 package com.robert.projects.MovieManagement.persistence.specification;
 
+import com.robert.projects.MovieManagement.dto.request.movie.GetMoviesRequest;
 import com.robert.projects.MovieManagement.persistence.entity.Movie;
 import com.robert.projects.MovieManagement.util.MovieGenre;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -18,11 +19,11 @@ public class FindAllMoviesSpecification implements Specification<Movie> {
     private Integer minReleaseYear;
     private Integer maxReleaseYear;
 
-    public FindAllMoviesSpecification(String title, MovieGenre genre, Integer minReleaseYear, Integer maxReleaseYear) {
-        this.title = title;
-        this.genre = genre;
-        this.minReleaseYear = minReleaseYear;
-        this.maxReleaseYear = maxReleaseYear;
+    public FindAllMoviesSpecification(GetMoviesRequest params) {
+        this.title = params.title();
+        this.genre = params.genre();
+        this.minReleaseYear = params.minReleaseYear();
+        this.maxReleaseYear = params.maxReleaseYear();
     }
 
     @Override

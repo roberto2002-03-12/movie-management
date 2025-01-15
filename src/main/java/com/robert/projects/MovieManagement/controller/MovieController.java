@@ -2,15 +2,11 @@ package com.robert.projects.MovieManagement.controller;
 
 import java.util.List;
 
+import com.robert.projects.MovieManagement.dto.request.movie.GetMoviesRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.robert.projects.MovieManagement.dto.request.movie.CreateMovieRequest;
 import com.robert.projects.MovieManagement.dto.request.movie.UpdateMovieRequest;
@@ -20,10 +16,6 @@ import com.robert.projects.MovieManagement.service.MovieService;
 import com.robert.projects.MovieManagement.util.MovieGenre;
 
 import jakarta.validation.Valid;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 
 // import org.springframework.web.bind.annotation.RequestPart;
 // import org.springframework.web.multipart.MultipartFile;
@@ -37,16 +29,11 @@ public class MovieController {
   @Autowired
   private ModelMapper modelMapper;
 
-  // Note: por cada petición se esta haciendo un select one, haciendo que el tiempo de respuesta sea mayor
-  // ToDo: ver una manera de evitar esto
   @GetMapping
   public ResponseEntity<List<GetMovie>> findAll(
-    @RequestParam(required = false) String title,
-    @RequestParam(required = false) MovieGenre genre,
-    @RequestParam(required = false) Integer minReleaseYear,
-    @RequestParam(required = false) Integer maxReleaseYear
+    @Valid @ModelAttribute GetMoviesRequest params
   ) {
-    return ResponseEntity.ok(movieService.findAll(title, genre, minReleaseYear, maxReleaseYear));
+    return ResponseEntity.ok(movieService.findAll(params));
   }
 
   @GetMapping("/{id}")

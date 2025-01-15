@@ -3,6 +3,7 @@ package com.robert.projects.MovieManagement.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.robert.projects.MovieManagement.dto.request.movie.GetMoviesRequest;
 import com.robert.projects.MovieManagement.persistence.specification.FindAllMoviesSpecification;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class MovieServiceImpl implements MovieService {
   private ModelMapper modelMapper;
 
   @Override
-  public List<GetMovie> findAll(String title, MovieGenre genre, Integer minReleaseYear, Integer maxReleaseYear) {
+  public List<GetMovie> findAll(GetMoviesRequest params) {
     // return movieCrudRepository.findAll();
 
     //    return MovieMapper.toGetDtoList(movieCrudRepository.findAll((root, query, cb) -> {
@@ -47,12 +48,7 @@ public class MovieServiceImpl implements MovieService {
     //      return cb.and(predicates.toArray(new Predicate[0]));
     //    }));
 
-    FindAllMoviesSpecification moviesSpecification = new FindAllMoviesSpecification(
-            title,
-            genre,
-            minReleaseYear,
-            maxReleaseYear
-    );
+    FindAllMoviesSpecification moviesSpecification = new FindAllMoviesSpecification(params);
     List<Movie> entites = movieCrudRepository.findAll(moviesSpecification);
     return MovieMapper.toGetDtoList(entites);
   }
