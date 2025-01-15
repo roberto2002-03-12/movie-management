@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.robert.projects.MovieManagement.dto.request.user.CreateUserRequest;
 import com.robert.projects.MovieManagement.dto.request.user.UpdateUserRequest;
-import com.robert.projects.MovieManagement.dto.response.ErrorResponse;
+import com.robert.projects.MovieManagement.dto.response.error.ErrorResponse;
 import com.robert.projects.MovieManagement.exception.InvalidPasswordException;
 import com.robert.projects.MovieManagement.persistence.entity.User;
 import jakarta.validation.Valid;
@@ -48,7 +48,7 @@ public class UserController {
     } catch (Exception e) {
       if(e.getClass() == InvalidPasswordException.class)
         return ResponseEntity.status(400).body(
-                new ErrorResponse(e.getMessage(), null)
+                new ErrorResponse<>(e.getMessage(), null, null)
         );
       throw e;
     }
@@ -65,7 +65,7 @@ public class UserController {
     } catch (Exception e) {
       if(e.getClass() == InvalidPasswordException.class)
         return ResponseEntity.status(400).body(
-                new ErrorResponse(e.getMessage(), null)
+                new ErrorResponse<>(e.getMessage(), null, null)
         );
       throw e;
     }
