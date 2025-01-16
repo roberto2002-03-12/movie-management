@@ -9,11 +9,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FindAllMoviesSpecification implements Specification<Movie> {
     private String title;
-    private MovieGenre genre;
+    private MovieGenre[] genres;
     private Integer minReleaseYear;
     private Integer maxReleaseYear;
     private Double minAverageRating;
@@ -21,7 +22,7 @@ public class FindAllMoviesSpecification implements Specification<Movie> {
 
     public FindAllMoviesSpecification(GetMoviesRequest params) {
         this.title = params.title();
-        this.genre = params.genre();
+        this.genres = params.genres();
         this.minReleaseYear = params.minReleaseYear();
         this.maxReleaseYear = params.maxReleaseYear();
         this.maxAverageRating = params.maxAverageRating();
@@ -39,8 +40,24 @@ public class FindAllMoviesSpecification implements Specification<Movie> {
         if(StringUtils.hasText(title))
             predicates.add(criteriaBuilder.like(root.get("title"), "%" + title.toLowerCase() + "%"));
 
-        if(genre != null)
-            predicates.add(criteriaBuilder.equal(root.get("genre"), genre));
+        if(genres != null && genres.length > 0) {
+        // con or
+//            List<Predicate> genrePredicates = new ArrayList<>();
+//
+//            for(MovieGenre genre : genres)
+//                genrePredicates.add(criteriaBuilder.equal(root.get("genre"), genre));
+//
+//            Predicate genreEqualWithOr = criteriaBuilder.or(genrePredicates.toArray(new Predicate[0]));
+//            predicates.add(genreEqualWithOr);
+            // con in
+            Predicate genreEqual = criteriaBuilder.in(
+                    root.get("genre")
+            ).value(
+                    Arrays.stream(this.genres).toList()
+            );
+            predicates.add(genreEqual);
+        }
+
 
         if(minReleaseYear != null && minReleaseYear.intValue() > 0)
             predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("realeasedYear"), minReleaseYear.toString()));

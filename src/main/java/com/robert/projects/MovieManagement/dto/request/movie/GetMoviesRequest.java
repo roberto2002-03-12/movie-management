@@ -10,7 +10,7 @@ import java.io.Serializable;
 public record GetMoviesRequest(
         @Size(max = 100, message = "Título debe tener máximo 200 caracteres")
         String title,
-        MovieGenre genre,
+        MovieGenre[] genres,
         Integer minReleaseYear,
         Integer maxReleaseYear,
 
