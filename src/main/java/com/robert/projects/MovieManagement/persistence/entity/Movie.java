@@ -16,7 +16,6 @@ import jakarta.persistence.*;
 )
 public class Movie {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-  // @JsonProperty(access = JsonProperty.Access.READ_ONLY) // ya no se necesita porque estamos usando mapper
   private Long id;
 
   @Column(nullable = false)
@@ -26,18 +25,12 @@ public class Movie {
   private String director;
 
   @Enumerated(EnumType.STRING)
-  // @JsonProperty(value = "released-year")
-  // con esto haces que solo sea lectura no escritura, si lo colocas en el POST lo va ignorar
   private MovieGenre genre;
 
   @Column(name = "realeased_year")
-  // usalo para cambiar el nombre del atributo en caso de responder una respuesta api
-  // @JsonProperty(value = "released-year")
-  // @JsonFormat(pattern = "yyyy/MM/dd") // solo funciona para fechas
   private String realeasedYear;
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "movie")
-  // @JsonManagedReference // ya no se necesita porque estamos usando mapper
   private List<Rating> ratings;
 
   @Transient

@@ -39,9 +39,4 @@ public record GetMoviesRequest(
         MovieOrderBy orderBy,
 
         OrderDirection order
-
-        /*
-        * Podrías declarar simplemente el objeto Pageable pageable y obtendría los datos de manera
-        * automatica siempre y cuando los queries sean size, page y sort, sin embargo, esto quitaría
-        * la personalización asi que por ese motivo no lo hago */
 ) implements Serializable { }

@@ -27,16 +27,12 @@ public class Rating {
   @Column(name = "user_id", nullable = false)
   private Long userId;
 
-  @ManyToOne // insertable = false, updatable = false sirve para aclarar que es un campo para obtener más no guardar
+  @ManyToOne
   @JoinColumn(name = "movie_id", insertable = false, updatable = false)
-  // @JsonIgnore
-  // @JsonBackReference
   private Movie movie;
 
   @ManyToOne
   @JoinColumn(name = "user_id", insertable = false, updatable = false)
-  // @JsonIgnore // se utiliza para ignorar la serialización del objeto user, es decir que no te lo incluya al momento de hacer un GET
-  // @JsonBackReference
   private User user;
 
   @Check(constraints = "rating >= 1 AND rating <= 5")

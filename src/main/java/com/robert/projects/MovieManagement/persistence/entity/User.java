@@ -31,7 +31,6 @@ public class User {
   private String repeatPassword;
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-  // @JsonManagedReference
   private List<Rating> ratings;
 
   public Long getId() {

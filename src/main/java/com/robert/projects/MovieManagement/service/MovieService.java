@@ -6,7 +6,6 @@ import com.robert.projects.MovieManagement.persistence.entity.Movie;
 import org.springframework.data.domain.Page;
 
 public interface MovieService {
-  // List<GetMovie> findAll(String title, MovieGenre genre, Integer minReleaseYear, Integer maxReleaseYear);
   Page<GetMovie> findAll(GetMoviesRequest params);
   GetMovie findOneById(Long id);
   GetMovie createOne(Movie movie);

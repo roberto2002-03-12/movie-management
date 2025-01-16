@@ -27,24 +27,6 @@ public class MovieServiceImpl implements MovieService {
 
   @Override
   public Page<GetMovie> findAll(GetMoviesRequest params) {
-    // return movieCrudRepository.findAll();
-
-    //    return MovieMapper.toGetDtoList(movieCrudRepository.findAll((root, query, cb) -> {
-    //      List<Predicate> predicates = new ArrayList<>();
-    //
-    //      // Esto evita el N+1 sin embargo, no es la solución final
-    //      root.fetch("ratings", JoinType.LEFT);
-    //
-    //      if (title != null && !title.isEmpty())
-    //        predicates.add(cb.like(root.get("title"), "%" + title + "%"));
-    //
-    //      if (genre != nulMovieCrudRepositoryl)
-    //        predicates.add(cb.equal(root.get("genre"), genre));
-    //
-    //      query.distinct(true);
-    //
-    //      return cb.and(predicates.toArray(new Predicate[0]));
-    //    }));
     String orderBy = "id";
 
     if(params.orderBy() != null)

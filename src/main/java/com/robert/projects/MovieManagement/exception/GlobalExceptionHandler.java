@@ -15,19 +15,7 @@ import org.springframework.http.HttpStatus;
 
 import com.robert.projects.MovieManagement.dto.response.error.ErrorResponse;
 
-// Esto sirve para todos los controladores, aunque puedes especificar para que controladores o controlador va dirigido con
-// Target all Controllers annotated with @RestController
 
-// @ControllerAdvice(annotations = RestController.class)
-// public class ExampleAdvice1 {}
-
-// Target all Controllers within specific packages
-// @ControllerAdvice("org.example.controllers")
-// public class ExampleAdvice2 {}
-
-// Target all Controllers assignable to specific classes
-// @ControllerAdvice(assignableTypes = {ControllerInterface.class, AbstractController.class})
-// public class ExampleAdvice3 {}
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
