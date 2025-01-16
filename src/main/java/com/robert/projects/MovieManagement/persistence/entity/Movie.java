@@ -27,8 +27,8 @@ public class Movie {
   @Enumerated(EnumType.STRING)
   private MovieGenre genre;
 
-  @Column(name = "realeased_year")
-  private String realeasedYear;
+  @Column(name = "release_year")
+  private String releaseYear;
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "movie")
   private List<Rating> ratings;
@@ -66,13 +66,9 @@ public class Movie {
     this.genre = genre;
   }
 
-  public String getRealeasedYear() {
-    return realeasedYear;
-  }
+  public String getReleaseYear() { return releaseYear; }
 
-  public void setRealeasedYear(String realeasedYear) {
-    this.realeasedYear = realeasedYear;
-  }
+  public void setReleaseYear(String releaseYear) { this.releaseYear = releaseYear; }
 
   public List<Rating> getRatings() {
     return ratings;

@@ -16,7 +16,7 @@ public class MovieMapper {
       entity.getTitle(),
       entity.getDirector(),
       entity.getGenre(),
-      entity.getRealeasedYear(),
+      entity.getReleaseYear(),
       RatingMapper.toGetMovieRatingDtoList(entity.getRatings()) 
     );
   }
@@ -36,7 +36,7 @@ public class MovieMapper {
     entity.setTitle(saveDto.title());
     entity.setDirector(saveDto.director());
     entity.setGenre(saveDto.genre());
-    entity.setRealeasedYear(saveDto.releasedYear());
+    entity.setReleaseYear(saveDto.releaseYear());
 
     return entity;
   }

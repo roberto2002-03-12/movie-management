@@ -10,7 +10,7 @@ public record GetMovie(
   String title,
   String director,
   MovieGenre genre,
-  String releasedYear,
+  String releaseYear,
   List<GetRating> ratings
 ) implements Serializable {
 

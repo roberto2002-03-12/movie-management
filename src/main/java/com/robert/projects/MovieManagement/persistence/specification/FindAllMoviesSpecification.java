@@ -60,13 +60,13 @@ public class FindAllMoviesSpecification implements Specification<Movie> {
 
 
         if(minReleaseYear != null && minReleaseYear.intValue() > 0)
-            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("realeasedYear"), minReleaseYear.toString()));
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("releaseYear"), minReleaseYear.toString()));
 
         if(maxReleaseYear != null && maxReleaseYear.intValue() > 0) {
             if(minReleaseYear != null && maxReleaseYear.intValue() > minReleaseYear.intValue())
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("realeasedYear"), maxReleaseYear.toString()));
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("releaseYear"), maxReleaseYear.toString()));
             else if(minReleaseYear == null)
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("realeasedYear"), maxReleaseYear.toString()));
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("releaseYear"), maxReleaseYear.toString()));
         }
 
         if(this.minAverageRating != null && this.minAverageRating >= 1 && this.minAverageRating <= 4) {

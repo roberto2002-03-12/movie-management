@@ -18,14 +18,14 @@ public record UpdateMovieRequest(
         MovieGenre genre,
 
         @Pattern(regexp = "^\\d{4}$", message = "Fecha de lanzamiento debe tener el formato YYYY")
-        String realeasedYear
+        String releaseYear
 ) implements Serializable {
   public static Movie toEntity(UpdateMovieRequest dtoMovie) {
     Movie movie = new Movie();
     movie.setDirector(dtoMovie.director());
     movie.setGenre(dtoMovie.genre());
     movie.setTitle(dtoMovie.title());
-    movie.setRealeasedYear(dtoMovie.realeasedYear());
+    movie.setReleaseYear(dtoMovie.releaseYear());
     return movie;
   }
 }
