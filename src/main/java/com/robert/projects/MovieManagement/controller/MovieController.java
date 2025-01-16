@@ -29,12 +29,9 @@ public class MovieController {
 
   @GetMapping
   public ResponseEntity<Page<GetMovie>> findAll(
-    @Valid @ModelAttribute GetMoviesRequest params,
-    @RequestParam(required = true, defaultValue = "0") Integer page,
-    @RequestParam(required = true, defaultValue = "10") Integer pageSize
+    @Valid @ModelAttribute GetMoviesRequest params
   ) {
-    Pageable moviePageable = PageRequest.of(page, pageSize);
-    return ResponseEntity.ok(movieService.findAll(params, moviePageable));
+    return ResponseEntity.ok(movieService.findAll(params));
   }
 
   @GetMapping("/{id}")

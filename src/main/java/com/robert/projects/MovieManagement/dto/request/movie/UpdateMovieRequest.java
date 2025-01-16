@@ -1,6 +1,6 @@
 package com.robert.projects.MovieManagement.dto.request.movie;
 
-import com.robert.projects.MovieManagement.util.MovieGenre;
+import com.robert.projects.MovieManagement.util.movie.MovieGenre;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

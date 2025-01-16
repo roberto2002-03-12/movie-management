@@ -3,7 +3,7 @@ package com.robert.projects.MovieManagement.dto.response.movie;
 import java.io.Serializable;
 import java.util.List;
 
-import com.robert.projects.MovieManagement.util.MovieGenre;
+import com.robert.projects.MovieManagement.util.movie.MovieGenre;
 
 public record GetMovie(
   long id,

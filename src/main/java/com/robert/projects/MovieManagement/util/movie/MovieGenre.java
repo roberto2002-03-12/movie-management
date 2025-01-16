@@ -1,4 +1,4 @@
-package com.robert.projects.MovieManagement.util;
+package com.robert.projects.MovieManagement.util.movie;
 
 public enum MovieGenre {
   ACTION,

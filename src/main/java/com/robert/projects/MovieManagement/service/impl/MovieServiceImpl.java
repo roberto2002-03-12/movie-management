@@ -1,14 +1,14 @@
 package com.robert.projects.MovieManagement.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.robert.projects.MovieManagement.dto.request.movie.GetMoviesRequest;
 import com.robert.projects.MovieManagement.persistence.specification.FindAllMoviesSpecification;
+import com.robert.projects.MovieManagement.util.OrderDirection;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.robert.projects.MovieManagement.dto.response.movie.GetMovie;
@@ -17,10 +17,6 @@ import com.robert.projects.MovieManagement.mapper.MovieMapper;
 import com.robert.projects.MovieManagement.persistence.entity.Movie;
 import com.robert.projects.MovieManagement.persistence.repository.MovieCrudRepository;
 import com.robert.projects.MovieManagement.service.MovieService;
-import com.robert.projects.MovieManagement.util.MovieGenre;
-
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Predicate;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -30,7 +26,7 @@ public class MovieServiceImpl implements MovieService {
   private ModelMapper modelMapper;
 
   @Override
-  public Page<GetMovie> findAll(GetMoviesRequest params, Pageable pageable) {
+  public Page<GetMovie> findAll(GetMoviesRequest params) {
     // return movieCrudRepository.findAll();
 
     //    return MovieMapper.toGetDtoList(movieCrudRepository.findAll((root, query, cb) -> {
@@ -42,14 +38,22 @@ public class MovieServiceImpl implements MovieService {
     //      if (title != null && !title.isEmpty())
     //        predicates.add(cb.like(root.get("title"), "%" + title + "%"));
     //
-    //      if (genre != null)
+    //      if (genre != nulMovieCrudRepositoryl)
     //        predicates.add(cb.equal(root.get("genre"), genre));
     //
     //      query.distinct(true);
     //
     //      return cb.and(predicates.toArray(new Predicate[0]));
     //    }));
+    String orderBy = "id";
 
+    if(params.orderBy() != null)
+      orderBy = params.orderBy().toString();
+
+    Sort.Direction direction = params.order() == OrderDirection.ASC ? Sort.Direction.ASC : Sort.Direction.DESC;
+    Sort movieSort = Sort.by(direction, orderBy);
+
+    Pageable pageable = PageRequest.of(params.page(), params.pageSize(), movieSort);
     FindAllMoviesSpecification moviesSpecification = new FindAllMoviesSpecification(params);
     Page<Movie> entities = movieCrudRepository.findAll(moviesSpecification, pageable);
     return entities.map(MovieMapper::toGetDto);

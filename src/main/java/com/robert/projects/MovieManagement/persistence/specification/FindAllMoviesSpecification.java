@@ -3,7 +3,7 @@ package com.robert.projects.MovieManagement.persistence.specification;
 import com.robert.projects.MovieManagement.dto.request.movie.GetMoviesRequest;
 import com.robert.projects.MovieManagement.persistence.entity.Movie;
 import com.robert.projects.MovieManagement.persistence.entity.Rating;
-import com.robert.projects.MovieManagement.util.MovieGenre;
+import com.robert.projects.MovieManagement.util.movie.MovieGenre;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;

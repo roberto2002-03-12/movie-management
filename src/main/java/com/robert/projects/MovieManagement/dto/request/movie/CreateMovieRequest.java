@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-import com.robert.projects.MovieManagement.util.MovieGenre;
+import com.robert.projects.MovieManagement.util.movie.MovieGenre;
 
 public class CreateMovieRequest {
   @NotBlank(message = "Título es necesario")

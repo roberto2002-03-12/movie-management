@@ -5,7 +5,7 @@ import java.util.List;
 // import com.fasterxml.jackson.annotation.JsonManagedReference;
 // import com.fasterxml.jackson.annotation.JsonFormat;
 // import com.fasterxml.jackson.annotation.JsonProperty;
-import com.robert.projects.MovieManagement.util.MovieGenre;
+import com.robert.projects.MovieManagement.util.movie.MovieGenre;
 
 import jakarta.persistence.*;
 
