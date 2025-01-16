@@ -11,8 +11,6 @@ public class MovieMapper {
   public static GetMovie toGetDto(Movie entity) {
     if(entity == null) return null;
 
-    System.out.println("entity.getAverageRating(): " + entity.getAverageRating());
-
     return new GetMovie(
       entity.getId(),
       entity.getTitle(),

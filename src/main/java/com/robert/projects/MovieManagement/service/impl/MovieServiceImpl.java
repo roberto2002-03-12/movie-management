@@ -1,6 +1,8 @@
 package com.robert.projects.MovieManagement.service.impl;
 
+import com.robert.projects.MovieManagement.dto.request.movie.CreateMovieRequest;
 import com.robert.projects.MovieManagement.dto.request.movie.GetMoviesRequest;
+import com.robert.projects.MovieManagement.dto.request.movie.UpdateMovieRequest;
 import com.robert.projects.MovieManagement.persistence.specification.FindAllMoviesSpecification;
 import com.robert.projects.MovieManagement.util.OrderDirection;
 import org.modelmapper.ModelMapper;
@@ -42,7 +44,8 @@ public class MovieServiceImpl implements MovieService {
   }
 
   @Override
-  public GetMovie createOne(Movie movie) {
+  public GetMovie createOne(CreateMovieRequest data) {
+    Movie movie = CreateMovieRequest.toEntity(data);
     return MovieMapper.toGetDto(movieCrudRepository.save(movie));
   }
 
@@ -52,8 +55,9 @@ public class MovieServiceImpl implements MovieService {
   }
 
   @Override
-  public GetMovie updateOneById(Long id, Movie newMovie) {
+  public GetMovie updateOneById(Long id, UpdateMovieRequest updatedData) {
     Movie oldMovie = this.findOneByIdInternal(id);
+    Movie newMovie = UpdateMovieRequest.toEntity(updatedData);
     modelMapper.map(newMovie, oldMovie);
     return MovieMapper.toGetDto(movieCrudRepository.save(oldMovie));
   }

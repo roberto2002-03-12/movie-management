@@ -45,8 +45,7 @@ public class MovieController {
   public ResponseEntity<GetMovie> createOne(
     @Valid @RequestBody CreateMovieRequest entity
   ) {
-    Movie movie = modelMapper.map(entity, Movie.class);
-    return ResponseEntity.status(201).body(movieService.createOne(movie));
+    return ResponseEntity.status(201).body(movieService.createOne(entity));
   }
 
   @PutMapping("/{id}")
@@ -54,8 +53,7 @@ public class MovieController {
     @PathVariable String id,
     @Valid @RequestBody UpdateMovieRequest entity
   ) {
-    Movie movie = modelMapper.map(entity, Movie.class);
-    return ResponseEntity.status(201).body(movieService.updateOneById(Long.parseLong(id), movie));
+    return ResponseEntity.status(201).body(movieService.updateOneById(Long.parseLong(id), entity));
   }
 
   @DeleteMapping("/{id}")
