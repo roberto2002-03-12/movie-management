@@ -21,8 +21,9 @@ import com.robert.projects.MovieManagement.service.UserService;
 public class UserController {
   @Autowired
   private UserService userService;
-    @Autowired
-    private ModelMapper modelMapper;
+
+  @Autowired
+  private ModelMapper modelMapper;
 
   @GetMapping
   public ResponseEntity<List<GetUser>> findAll(

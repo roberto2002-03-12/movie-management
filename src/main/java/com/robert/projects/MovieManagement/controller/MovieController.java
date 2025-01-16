@@ -5,6 +5,9 @@ import java.util.List;
 import com.robert.projects.MovieManagement.dto.request.movie.GetMoviesRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,13 +16,8 @@ import com.robert.projects.MovieManagement.dto.request.movie.UpdateMovieRequest;
 import com.robert.projects.MovieManagement.dto.response.movie.GetMovie;
 import com.robert.projects.MovieManagement.persistence.entity.Movie;
 import com.robert.projects.MovieManagement.service.MovieService;
-import com.robert.projects.MovieManagement.util.MovieGenre;
 
 import jakarta.validation.Valid;
-
-// import org.springframework.web.bind.annotation.RequestPart;
-// import org.springframework.web.multipart.MultipartFile;
-// import org.springframework.http.MediaType;
 
 @RestController
 @RequestMapping("/movies")
@@ -30,10 +28,13 @@ public class MovieController {
   private ModelMapper modelMapper;
 
   @GetMapping
-  public ResponseEntity<List<GetMovie>> findAll(
-    @Valid @ModelAttribute GetMoviesRequest params
+  public ResponseEntity<Page<GetMovie>> findAll(
+    @Valid @ModelAttribute GetMoviesRequest params,
+    @RequestParam(required = true, defaultValue = "0") Integer page,
+    @RequestParam(required = true, defaultValue = "10") Integer pageSize
   ) {
-    return ResponseEntity.ok(movieService.findAll(params));
+    Pageable moviePageable = PageRequest.of(page, pageSize);
+    return ResponseEntity.ok(movieService.findAll(params, moviePageable));
   }
 
   @GetMapping("/{id}")

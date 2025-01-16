@@ -7,6 +7,8 @@ import com.robert.projects.MovieManagement.dto.request.movie.GetMoviesRequest;
 import com.robert.projects.MovieManagement.persistence.specification.FindAllMoviesSpecification;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.robert.projects.MovieManagement.dto.response.movie.GetMovie;
@@ -28,7 +30,7 @@ public class MovieServiceImpl implements MovieService {
   private ModelMapper modelMapper;
 
   @Override
-  public List<GetMovie> findAll(GetMoviesRequest params) {
+  public Page<GetMovie> findAll(GetMoviesRequest params, Pageable pageable) {
     // return movieCrudRepository.findAll();
 
     //    return MovieMapper.toGetDtoList(movieCrudRepository.findAll((root, query, cb) -> {
@@ -49,8 +51,8 @@ public class MovieServiceImpl implements MovieService {
     //    }));
 
     FindAllMoviesSpecification moviesSpecification = new FindAllMoviesSpecification(params);
-    List<Movie> entites = movieCrudRepository.findAll(moviesSpecification);
-    return MovieMapper.toGetDtoList(entites);
+    Page<Movie> entities = movieCrudRepository.findAll(moviesSpecification, pageable);
+    return entities.map(MovieMapper::toGetDto);
   }
 
   @Override
