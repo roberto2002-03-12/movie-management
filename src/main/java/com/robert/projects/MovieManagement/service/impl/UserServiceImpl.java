@@ -2,12 +2,14 @@ package com.robert.projects.MovieManagement.service.impl;
 
 import java.util.List;
 
+import com.robert.projects.MovieManagement.dto.request.user.CreateUserRequest;
+import com.robert.projects.MovieManagement.dto.request.user.UpdateUserRequest;
 import com.robert.projects.MovieManagement.service.validator.PasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.robert.projects.MovieManagement.dto.response.user.GetUser;
-import com.robert.projects.MovieManagement.exception.ObjectNotFoundException;
+import com.robert.projects.MovieManagement.exception.throwable.ObjectNotFoundException;
 import com.robert.projects.MovieManagement.mapper.UserMapper;
 import com.robert.projects.MovieManagement.persistence.entity.User;
 import com.robert.projects.MovieManagement.persistence.repository.UserCrudRepository;
@@ -38,14 +40,16 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public GetUser createOne(User user) {
+  public GetUser createOne(CreateUserRequest userDto) {
+    User user = CreateUserRequest.toEntity(userDto);
     PasswordValidator.validatePassword(user.getPassword(), user.getRepeatPassword());
     return UserMapper.toGetDto(userCrudRepository.save(user));
   }
 
   @Override
-  public GetUser updateOneByUsername(String username, User user) {
+  public GetUser updateOneByUsername(String username, UpdateUserRequest userDto) {
     User oldUser = this.findOneByUsernameInternal(username);
+    User user = UpdateUserRequest.toEntity(userDto);
 
     if(user.getName() != null && !user.getName().isEmpty())
       oldUser.setName(user.getName());
@@ -54,8 +58,6 @@ public class UserServiceImpl implements UserService {
       PasswordValidator.validatePassword(user.getPassword(), user.getRepeatPassword());
       oldUser.setPassword(user.getPassword());
     }
-
-    // ToDo: valdiate password
 
     return UserMapper.toGetDto(userCrudRepository.save(oldUser));
   }

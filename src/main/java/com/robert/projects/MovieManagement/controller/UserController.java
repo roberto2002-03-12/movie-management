@@ -5,8 +5,8 @@ import java.util.List;
 import com.robert.projects.MovieManagement.dto.request.user.CreateUserRequest;
 import com.robert.projects.MovieManagement.dto.request.user.UpdateUserRequest;
 import com.robert.projects.MovieManagement.dto.response.error.ErrorResponse;
-import com.robert.projects.MovieManagement.exception.InvalidPasswordException;
-import com.robert.projects.MovieManagement.persistence.entity.User;
+import com.robert.projects.MovieManagement.exception.throwable.InvalidPasswordException;
+import com.robert.projects.MovieManagement.exception.throwable.BadRequestException;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +44,11 @@ public class UserController {
           @Valid @RequestBody CreateUserRequest entity
   ) {
     try {
-      User user = modelMapper.map(entity, User.class);
-      return ResponseEntity.status(201).body(userService.createOne(user));
+      return ResponseEntity.status(201).body(userService.createOne(entity));
     } catch (Exception e) {
       if(e.getClass() == InvalidPasswordException.class)
-        return ResponseEntity.status(400).body(
-                new ErrorResponse<>(e.getMessage(), null, null)
-        );
+        throw new BadRequestException(new ErrorResponse<String>(e.getMessage(), null, null));
+
       throw e;
     }
   }
@@ -61,13 +59,11 @@ public class UserController {
           @Valid @RequestBody UpdateUserRequest entity
   ) {
     try {
-      User user = modelMapper.map(entity, User.class);
-      return ResponseEntity.status(201).body(userService.updateOneByUsername(username, user));
+      return ResponseEntity.status(201).body(userService.updateOneByUsername(username, entity));
     } catch (Exception e) {
       if(e.getClass() == InvalidPasswordException.class)
-        return ResponseEntity.status(400).body(
-                new ErrorResponse<>(e.getMessage(), null, null)
-        );
+        throw new BadRequestException(new ErrorResponse<String>(e.getMessage(), null, null));
+
       throw e;
     }
   }

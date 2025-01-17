@@ -1,4 +1,4 @@
-package com.robert.projects.MovieManagement.exception;
+package com.robert.projects.MovieManagement.exception.throwable;
 
 public class ObjectNotFoundException extends RuntimeException {
 

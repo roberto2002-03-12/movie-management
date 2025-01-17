@@ -14,7 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.robert.projects.MovieManagement.dto.response.movie.GetMovie;
-import com.robert.projects.MovieManagement.exception.ObjectNotFoundException;
+import com.robert.projects.MovieManagement.exception.throwable.ObjectNotFoundException;
 import com.robert.projects.MovieManagement.mapper.MovieMapper;
 import com.robert.projects.MovieManagement.persistence.entity.Movie;
 import com.robert.projects.MovieManagement.persistence.repository.MovieCrudRepository;

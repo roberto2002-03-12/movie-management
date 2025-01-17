@@ -1,38 +1,25 @@
 package com.robert.projects.MovieManagement.dto.request.user;
 
+import com.robert.projects.MovieManagement.persistence.entity.User;
 import jakarta.validation.constraints.Size;
 
-public class UpdateUserRequest {
-    @Size(min = 3, max = 32, message = "La contraseña debe ser entre 3 y 32 caraceteres")
-    private String password;
+import java.io.Serializable;
 
-    @Size(min = 3, max = 32, message = "La contraseña debe ser entre 3 y 32 caraceteres")
-    private String repeatPassword;
+public record UpdateUserRequest(
+        @Size(min = 3, max = 32, message = "La contraseña debe ser entre 3 y 32 caraceteres")
+        String password,
 
-    @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
-    private String name;
+        @Size(min = 3, max = 32, message = "La contraseña debe ser entre 3 y 32 caraceteres")
+        String repeatPassword,
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getRepeatPassword() {
-        return repeatPassword;
-    }
-
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
-    }
+        @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
+        String name
+) implements Serializable {
+        public static User toEntity(UpdateUserRequest userDto) {
+                User user = new User();
+                user.setPassword(userDto.password());
+                user.setName(userDto.name());
+                user.setRepeatPassword(userDto.repeatPassword());
+                return user;
+        }
 }

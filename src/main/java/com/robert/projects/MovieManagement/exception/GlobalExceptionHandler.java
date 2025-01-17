@@ -3,6 +3,8 @@ package com.robert.projects.MovieManagement.exception;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.robert.projects.MovieManagement.exception.throwable.BadRequestException;
+import com.robert.projects.MovieManagement.exception.throwable.ObjectNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -41,6 +43,14 @@ public class GlobalExceptionHandler {
     return ResponseEntity
       .status(HttpStatus.BAD_REQUEST)
       .body(new ErrorResponse<Map<String, String>>("Error de validación", ex.getMessage(), errors));
+  }
+
+  @ExceptionHandler(BadRequestException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ResponseEntity<ErrorResponse<?>> handleBadRequestException(BadRequestException ex) {
+    return ResponseEntity
+      .status(HttpStatus.BAD_REQUEST)
+      .body(ex.getErrorResponse());
   }
 
   @ExceptionHandler(Exception.class)

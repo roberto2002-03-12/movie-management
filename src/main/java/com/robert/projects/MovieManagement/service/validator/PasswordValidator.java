@@ -1,6 +1,6 @@
 package com.robert.projects.MovieManagement.service.validator;
 
-import com.robert.projects.MovieManagement.exception.InvalidPasswordException;
+import com.robert.projects.MovieManagement.exception.throwable.InvalidPasswordException;
 import org.springframework.util.StringUtils;
 
 public class PasswordValidator {

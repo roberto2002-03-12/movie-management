@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.robert.projects.MovieManagement.exception.ObjectNotFoundException;
+import com.robert.projects.MovieManagement.exception.throwable.ObjectNotFoundException;
 import com.robert.projects.MovieManagement.persistence.entity.Rating;
 import com.robert.projects.MovieManagement.persistence.repository.RatingCrudRepository;
 import com.robert.projects.MovieManagement.service.RatingService;
